@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import './App.css';
-import fetchJsonp from 'fetch-jsonp';
+
+function fetchJsonp(url) {
+  return new Promise((resolve, reject) => {
+    window.jsonFlickrApi = (result) => resolve(result);
+    const scriptEl = document.createElement('script');
+    scriptEl.src = url;
+    scriptEl.onerror = () => reject();
+    document.getElementsByTagName('head')[0].append(scriptEl);
+  });
+}
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./ServiceWorker.js', {scope: 'flickr/*'});
+  navigator.serviceWorker.register('./ServiceWorker.js')
+  .then((reg) => console.log('Registration succeeded. Scope is ' + reg.scope))
+  .catch((error) => console.log('Registration failed with ' + error));
 }
 
 class App extends Component {
@@ -31,10 +42,7 @@ class App extends Component {
   fetchPhoto() {
     this.setState({isFetching: true});
     this.page += 1;
-    fetchJsonp(`${App.API_URL}&page=${this.page}`, {
-       jsonpCallback: 'jsoncallback',
-    })
-    .then(response => response.json())
+    fetchJsonp(`${App.API_URL}&page=${this.page}`)
     .then(json => {
       let prevPhotos = this.state.photos;
       let nextPhotos = prevPhotos.concat(json.photos.photo);
@@ -46,16 +54,6 @@ class App extends Component {
       });
       return Promise.resolve();
     });
-  }
-  getLivePhoto() {
-    return this.fetchPhoto();
-  }
-  getCachedPhoto() {
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-
-    } else {
-      return Promise.reject(Error('No ServiceWorker'));
-    }
   }
   render() {
     const {isFetching, photos, total, count} = this.state;

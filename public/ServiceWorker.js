@@ -3,14 +3,14 @@ this.addEventListener('install', function (e) {
   e.waitUntil(
     caches.open('v5').then(function (cache) {
       return cache.addAll([
-        '/',
-        '/favicon.ico',
-        '/fallback.html',
-        '/index.html',
-        '/ServiceWorker.js',
-        '/static/js/bundle.js',
-        '/static/js/main.*.js',
-        '/static/css/main.*.css'
+        './',
+        './favicon.ico',
+        './fallback.html',
+        './index.html',
+        './ServiceWorker.js',
+        './static/js/bundle.js',
+        './static/js/main.*.js',
+        './static/css/main.*.css'
       ])
     })
   );

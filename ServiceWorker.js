@@ -1,13 +1,13 @@
 
 this.addEventListener('install', function (e) {
   e.waitUntil(
-    caches.open('v6').then(function (cache) {
+    caches.open('v7').then(function (cache) {
       return cache.addAll([
         './favicon.ico',
         './fallback.html',
         './index.html',
         './ServiceWorker.js',
-        './static/css/main.c34e0525.js',
+        './static/css/main.c34e0525.css',
         './static/js/main.d473c651.js'
       ])
     })
@@ -24,7 +24,7 @@ this.addEventListener('fetch', (e) => {
     e.respondWith(
       caches.match(e.request)
       .then(response => response || fetch(e.request).then(response => {
-        return caches.open('v6').then(cache => {
+        return caches.open('v7').then(cache => {
           cache.put(e.request, response.clone());
           return response;
         })

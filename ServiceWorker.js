@@ -1,8 +1,9 @@
 
 this.addEventListener('install', function (e) {
   e.waitUntil(
-    caches.open('v7').then(function (cache) {
+    caches.open('v8').then(function (cache) {
       return cache.addAll([
+        './',
         './favicon.ico',
         './fallback.html',
         './index.html',

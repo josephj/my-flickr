@@ -7,7 +7,7 @@ this.addEventListener('install', function (e) {
         './fallback.html',
         './index.html',
         './ServiceWorker.js',
-        './static/css/main.c34e0525.css',
+        './static/css/main.75e859db.css',
         './static/js/main.d473c651.js'
       ])
     })
